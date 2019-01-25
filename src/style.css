@@ -1,0 +1,42 @@
+body,html {
+    height: 100%;
+    background-position: center;
+    background-image:url(https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2560x1416/fa9810f3dc85ae2f4db531a13742fe1f/photo-1548167390-863d815de934);
+    background-size: cover; 
+    
+}
+
+.list-container{
+    
+    height:auto;
+    
+    display: flex;
+    justify-content: space-around;
+    
+    flex-direction: row;
+}
+.lists{
+    width:20%;
+    background-color:lightblue;
+    border-radius:12px;
+
+}
+.lists h3{
+    margin-left:20px;
+}
+
+.cards {
+    margin:5px;
+    
+    background-color: whitesmoke;
+    border-radius:12px;
+    border-bottom: 1px solid grey
+}
+
+.cards:hover {
+    background-color: aqua;
+}
+.cards p{
+    padding:10px;
+    font-size:20px;
+}
