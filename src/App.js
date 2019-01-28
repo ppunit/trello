@@ -13,6 +13,7 @@ class App extends React.Component {
     render(){
         return(
             <div className="background" >
+                <header></header>
                 <Post />
             </div>
 
