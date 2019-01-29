@@ -1,12 +1,14 @@
 import React from 'react'
 import ReactDom from 'react-dom'
-import Api from './apicalling'
+import Api from './api'
 import GetCard from './getCards'
+import List from './list'
+import api from './api';
 let board = '5c47edd01d96813069bd54f3'
 let key = 'ba87a31628190bbc103cc08a388aacea'
 let token = '3f3274f0b90505daeca4f34e41b3714051f6838d8967d963592176d8d5750817'
 
-class Post extends React.Component {
+class Board extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -18,18 +20,20 @@ class Post extends React.Component {
     componentDidMount() {
         this.fetchData()
     }
+
+    
     fetchData() {
-        fetch(`https://api.trello.com/1/boards/${board}/lists?cards=none&card_fields=all&filter=open&fields=all&key=${key}&token=${token}`)
+            Api.getListsOnBoard()
             .then(response => response.json())
             .then(data => {
                 this.setState({
                     lists: data,
                     newList:""
                 })
-                console.log(this.state.lists);
             })
             .catch(error => console.log('parsed failed', error))
-    }
+    
+}
 
     handleKeyPress = e => {
         if (e.key === "Enter") {
@@ -46,7 +50,7 @@ class Post extends React.Component {
     }
 
     AddNewList(){
-        fetch(`https://api.trello.com/1/lists?name=${this.state.newList}&idBoard=${board}&pos=bottom&key=${key}&token=${token}`,{method:'POST'})
+       Api.postNewListOnBoard(this.state.newList)
         .then(response=>response.json())
         .then(data=>{
             let newListToBeAdded=[];
@@ -60,7 +64,7 @@ class Post extends React.Component {
     }
 
     deleteList(id){
-        fetch(`https://api.trello.com/1/lists/${id}/closed?value=true&key=${key}&token=${token}`,{method:'PUT'})
+        Api.deleteListFromTheBoard(id)        
         .then(response=>response.json())
         .then(data=>{
 
@@ -80,9 +84,7 @@ class Post extends React.Component {
                 {this.state.lists.map(list => {
                     return (
                         <div className="lists">
-                            <h3>{list.name}</h3>
-                            <span  onClick={this.deleteList.bind(this,list.id)}style={{display:"block",width:"1px"}} className="close" title="Close Modal">&times;</span>
-                            <GetCard id={list.id} />
+                            <List deleteList={this.deleteList.bind(this,list.id)} id={list.id} name={list.name}></List>
                         </div>
                     )
                 })}
@@ -100,4 +102,4 @@ class Post extends React.Component {
     }
 }
 
-export default Post
+export default Board

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Post from './post'
+import Board from './listContainer'
 
 class App extends React.Component {
     //  constructor() {
@@ -14,7 +14,7 @@ class App extends React.Component {
         return(
             <div className="background" >
                 <header></header>
-                <Post />
+                <Board />
             </div>
 
         )

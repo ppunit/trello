@@ -1,9 +1,9 @@
 import React from 'react'
 import AddCard from './addCards'
-import Checklist from './checklist'
-let key = 'ba87a31628190bbc103cc08a388aacea'
-let token = '3f3274f0b90505daeca4f34e41b3714051f6838d8967d963592176d8d5750817'
-class GetCard extends React.Component {
+import Api from './api'
+import ListContent from './cardContent'
+
+class Cards extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -22,8 +22,6 @@ class GetCard extends React.Component {
     newUpdatedCardList = []
 
     stateChangeAfterAddingCards(newCard) {
-        console.log("in parent", newCard)
-        console.log(this.state.cards)
         this.newUpdatedCardList = this.state.cards.map(data => {
             return data;
 
@@ -35,10 +33,7 @@ class GetCard extends React.Component {
         })
     }
     deleteCardFromTheList(id){
-        console.log(id)
-        fetch(`https://api.trello.com/1/cards/${id}?closed=true&key=${key}&token=${token}`, {
-            method: 'PUT'
-        })
+       Api.deleteCard(id)
             .then(response => response.json())
             .then(data => {
                 
@@ -54,7 +49,8 @@ class GetCard extends React.Component {
     }
 
     getCardOfList() {
-        fetch(`https://api.trello.com//1/lists/${this.props.id}/cards?fields=id,name,badges,labels&key=${key}&token=${token}`)
+
+        Api.getCardRequest(this.props.id)
             .then(response => response.json())
             .then(data => {
                 this.setState({
@@ -67,15 +63,9 @@ class GetCard extends React.Component {
     }
 
     showChecklist=(id)=>{
-        console.log("called")
-        console.log(id)
-      
-
      this.setState({
          checklistPopUp:true
         })
-    
-
     }
     hideCheckList=(id)=>{
         console.log("called in hide")
@@ -83,19 +73,20 @@ class GetCard extends React.Component {
         this.setState({ checklistPopUp: false });
       };
     render() {
+        console.log("calling from getcards",this.props.id)
         return (
             <div>
-                {this.state.cards.map(list => {
+                {this.state.cards.map(card => {
                     return (
                         
                         <div className="cards" >
                             {console.log("i am calling",this.state.checklistPopUp)}
-                        {this.state.checklistPopUp?<Checklist checklistclose={this.hideCheckList.bind(this,list.id)} cardId={list.id}></Checklist>:null}
-                           <span onClick= {this.showChecklist.bind(this,list.id)}><p>{list.name}</p></span> 
-                            <span onClick={this.deleteCardFromTheList.bind(this,list.id) } style={{display:"block",width:"1px"}} className="close" title="Close Modal">&times;</span>
+                        {this.state.checklistPopUp?<ListContent checklistclose={this.hideCheckList.bind(this,card.id)} cardId={card.id} cardName={card.name}></ListContent>:null}
+                           <span onClick= {this.showChecklist.bind(this,card.id)}><p>{card.name}</p></span> 
+                            <span onClick={this.deleteCardFromTheList.bind(this,card.id) } style={{display:"block",width:"1px"}} className="close" title="Close Modal">&times;</span>
                         </div>)
                 } )}
- <AddCard updateCardList={this.stateChangeAfterAddingCards} id={this.props.id} />
+                   <AddCard updateCardList={this.stateChangeAfterAddingCards} id={this.props.id} />
         </div> )}
 }
-export default GetCard;
+export default Cards;

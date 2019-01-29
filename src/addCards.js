@@ -1,6 +1,6 @@
 import React from 'react'
-let key = 'ba87a31628190bbc103cc08a388aacea'
-let token = '3f3274f0b90505daeca4f34e41b3714051f6838d8967d963592176d8d5750817'
+import Api from './api';
+
 class AddCards extends React.Component {
     constructor(props) {
         super(props);
@@ -22,15 +22,11 @@ class AddCards extends React.Component {
         })
     }
     postCardOnList() {
-        fetch(`https://api.trello.com/1/cards?name=${this.state.newCard}&pos=top&idList=${this.props.id}&keepFromSource=all&key=${key}&token=${token}`, {
-            method: 'POST'
-        })
-            .then(response => response.json())
+        Api.addNewCardToTheList(this.state.newCard,this.props.id)
+           .then(response => response.json())
             .then(data => {
-
                 console.log(data);
                 this.props.updateCardList(data)
-
             })
             .catch(error => console.log('parsed failed', error))
     }
