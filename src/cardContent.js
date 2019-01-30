@@ -1,7 +1,6 @@
 import React from 'react'
-import CheckListItem from './checklist'
+import Checklist from './checklist'
 import Api from './api';
-import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Input from '@material-ui/core/Input';
 import IconButton from '@material-ui/core/IconButton';
@@ -31,7 +30,7 @@ export default class CardContent extends React.Component {
             })
     }
     postCheckList() {
-        Api.postRequestForCheckList(this.props.cardId,this.state.newCheckList)     
+        Api.postRequestForCheckList(this.props.cardId, this.state.newCheckList)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
@@ -60,15 +59,15 @@ export default class CardContent extends React.Component {
 
     deleteCheckList(id) {
         console.log("delete")
-       
+
         Api.deleteRequestForCheckList(id)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                let deletedCheckList = this.state.checklist.filter(checklist => id !== checklist.id)
+                let updatedChecklistAfterDeletion = this.state.checklist.filter(checklist => id !== checklist.id)
 
                 this.setState({
-                    checklist: deletedCheckList
+                    checklist: updatedChecklistAfterDeletion
 
                 })
             })
@@ -81,45 +80,45 @@ export default class CardContent extends React.Component {
             <div className="checklist-popup">
 
 
-                <div className="container  modal-content animate" >
-                    
+                <div className="modal-content animate" >
+
                     <h1>{this.props.cardName}</h1>
-                    
+
                     <span onClick={this.props.checklistclose} className="close" >&times;</span>
                     <hr></hr>
 
-                        {this.state.checklist.map(checklist => {
-                            return (
-                                <div>
-                                    <div className="checklist">
-                                        
-                                        <h2>{checklist.name}</h2>
+                    {this.state.checklist.map(checklist => {
+                        return (
+                            <div>
+                                <div className="checklist">
 
-                                        <IconButton aria-label="Delete" onClick={this.deleteCheckList.bind(this, checklist.id)}>
-                                      <DeleteIcon fontSize="small" />
-                                        </IconButton>
-                                       
-                                    </div>
-                                    <CheckListItem checklistid={checklist.id} cardid={this.props.cardId}></CheckListItem>
+                                    <h2>{checklist.name}</h2>
+
+                                    <IconButton aria-label="Delete" onClick={this.deleteCheckList.bind(this, checklist.id)}>
+                                        <DeleteIcon fontSize="small" />
+                                    </IconButton>
+
                                 </div>
+                                <Checklist checklistid={checklist.id} cardid={this.props.cardId}></Checklist>
+                            </div>
 
 
-                            )
-                        })
-                        }
-                        <div className="input-button add-checklist">
-                            <hr ></hr>
+                        )
+                    })
+                    }
+                    <div className="input-button add-checklist">
+                        <hr ></hr>
 
-                            <Input className="add-checklist"
-                                type="text"
-                                id="add-card"
-                                value={this.state.newCheckList}
-                                label="+Add  checklist"
-                                onKeyPress={this.handleKeyPress}
-                                onChange={this.handleChange}
-                            />
-                        </div>
-                  
+                        <Input className="add-checklist"
+                            type="text"
+                            id="add-card"
+                            value={this.state.newCheckList}
+                            placeholder="+Add  checklist"
+                            onKeyPress={this.handleKeyPress}
+                            onChange={this.handleChange}
+                        />
+                    </div>
+
 
 
 
@@ -127,7 +126,7 @@ export default class CardContent extends React.Component {
 
 
                 </div>
-                
+
             </div>
 
         )

@@ -1,5 +1,5 @@
 import React from 'react'
-import ItemState from './checklistItem'
+import CheckListItem from './checklistItem'
 import api from './api';
 
 export default class CheckList extends React.Component {
@@ -24,7 +24,6 @@ export default class CheckList extends React.Component {
         api.getRequestForCheckListItem(this.props.checklistid)
             .then(response => response.json())
             .then(data => {
-                //console.log(data);
                 this.setState({
                     checklistItem: data
 
@@ -35,7 +34,6 @@ export default class CheckList extends React.Component {
         api.postRequestForcheckListItem(this.props.checklistid,this.state.newItem,this.state.checked) 
             .then(response => response.json())
             .then(data => {
-                console.log(data)
                 let addedItem = this.state.checklistItem.map(item => item)
                 addedItem.push(data)
                 this.setState({
@@ -66,7 +64,7 @@ export default class CheckList extends React.Component {
                     return (
                         <div className="check-item" key={item.id}>
 
-                            <ItemState id={item.id} state={item.state} name={item.name} cardId={this.props.cardid} checklistId={this.props.checklistid}></ItemState>
+                            <CheckListItem id={item.id} state={item.state} name={item.name} cardId={this.props.cardid} checklistId={this.props.checklistid}></CheckListItem>
 
 
                         </div>

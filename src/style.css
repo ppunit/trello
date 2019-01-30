@@ -104,15 +104,16 @@ html {
   padding-top: 60px;
 }
 .checklist {
-  margin-left: -210px;
+  
+  
 
-  width: 363%;
+  width: 573px;
   padding:2px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color:aqua;
-  color:blue;
+  background-color:#A9A9A9;
+  
   
 }
 .check-item {
@@ -120,11 +121,13 @@ html {
   display: flex;
   align-items: center;
   height: 30px;
+  background-color: #DCDCDC;
 }
 
 .modal-content {
   
-  position: relative;
+  position: absolute;
+  left:30%;
   display: flex;
   flex-direction: column;
   align-items: center;

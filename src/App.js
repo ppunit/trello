@@ -1,25 +1,14 @@
 import React from 'react'
 
-import Board from './listContainer'
+import Board from './Board'
 
-class App extends React.Component {
-    //  constructor() {
-    //      super();
-         
-        
-    //  }
+function App() {
+    return (
+        <div className="background" >
+            <header></header>
+            <Board />
+        </div>
 
-    
-    render(){
-        return(
-            <div className="background" >
-                <header></header>
-                <Board />
-            </div>
-
-        )
-    }
-
+    )
 }
-
 export default App
